@@ -1,0 +1,30 @@
+name: "simple_cag_frontend"
+publish_to: "none"
+version: 0.1.0
+
+resolution: workspace
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  material_ui: ^1.11.1
+  simple_cag_domain:
+  simple_cag_backend:
+  fpdart:
+  esynchore_flutter:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 0.1.0
+  esynchore_core:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+  shared_preferences: ^2.5.6
+  flutter_hooks: ^0.21.4
+  network_discovery: ^1.0.1
+  web_socket_channel: ^3.0.3
+  stretch_wrap: ^0.1.1
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true

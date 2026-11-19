@@ -1,0 +1,32 @@
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.50.0'
+          channel: 'stable'
+
+      - name: Download Dependencies
+        run: flutter pub get
+
+      - name: Build
+        run: flutter build web --base-href /cag_esynchore_example/
+        working-directory: apps/simple_cag_frontend
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: apps/simple_cag_frontend/build/web

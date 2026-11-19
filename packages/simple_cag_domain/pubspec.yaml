@@ -1,0 +1,21 @@
+name: "simple_cag_domain"
+publish_to: "none"
+
+resolution: workspace
+
+environment:
+  sdk: '^3.14.0'
+
+dependencies:
+  bcrypt: ^1.2.0
+  dart_api_service:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 2.0.0
+  dart_iconica_utilities:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+  esynchore_core:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+  fpdart:
+  http: ^1.6.0
+  meta: ^1.19.0
+  uuid: ^4.6.0

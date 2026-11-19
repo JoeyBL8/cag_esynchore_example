@@ -1,0 +1,23 @@
+name: "simple_cag_workspace"
+
+environment:
+  sdk: 3.14.0
+
+workspace:
+ - packages/simple_cag_domain
+ - apps/simple_cag_backend
+ - apps/simple_cag_frontend
+
+dependencies:
+  dart_iconica_utilities:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 0.0.4
+  esynchore_core:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 0.1.0
+  fpdart: ^1.2.0
+
+dev_dependencies:
+  flutter_iconica_analysis:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 10.0.1

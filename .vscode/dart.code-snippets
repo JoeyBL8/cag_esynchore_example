@@ -1,0 +1,14 @@
+{
+  "StatelessWidget (primary constructor)": {
+    "prefix": "stless",
+    "body": [
+      "class const ${1:WidgetName}({super.key}) extends StatelessWidget {",
+      "\t@override",
+      "\tWidget build(BuildContext context) {",
+      "\t\treturn ${2:const SizedBox.shrink()};",
+      "\t}",
+      "}"
+    ],
+    "description": "Create a StatelessWidget using primary-constructor syntax"
+  }
+}

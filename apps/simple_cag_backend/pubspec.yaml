@@ -1,0 +1,19 @@
+name: "simple_cag_backend"
+version: 0.1.0
+publish_to: "none"
+
+resolution: workspace
+
+dependencies: 
+  simple_cag_domain:
+  esynchore_backend:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: 0.1.0
+  esynchore_core:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+  shelf: ^1.4.3
+  fpdart:
+  shelf_router: ^1.1.5
+
+environment:
+  sdk: ^3.14.0
