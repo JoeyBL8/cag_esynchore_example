@@ -1,11 +1,11 @@
 {
-    "name": "simple_cag_frontend",
-    "short_name": "simple_cag_frontend",
+    "name": "CaG: The game - Web",
+    "short_name": "CaG - Web",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
-    "description": "A new Flutter project.",
+    "description": "Cards against humanity trial of esynchore",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
