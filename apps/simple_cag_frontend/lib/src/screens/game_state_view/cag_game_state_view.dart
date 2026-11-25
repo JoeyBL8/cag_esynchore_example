@@ -98,13 +98,19 @@ class const _LoggedInPlayerView({
               gameControls,
               if (gameState.stage == .endOfRound) ...[
                 Center(child: WinningPrompt(game: gameState)),
-              ]
+              ],
             ],
           ),
         ),
-        const Divider(height: 4, thickness: 4,),
+        const Divider(
+          height: 4,
+          thickness: 4,
+        ),
         GameStateNotification(game: gameState, player: myPlayer),
-        const Divider(height: 4, thickness: 4,),
+        const Divider(
+          height: 4,
+          thickness: 4,
+        ),
         GenericPlayerControls(
           credentials: credentials,
           connectedState: connectedState,

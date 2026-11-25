@@ -24,7 +24,7 @@ class const LoginScreen({
         final displayName = nameController.text;
         final key = keyController.text;
 
-        final result = await state.login(key: key,playerName: displayName).run();
+        final result = await state.login(key: key, playerName: displayName).run();
 
         switch (result) {
           case Right(:final value):

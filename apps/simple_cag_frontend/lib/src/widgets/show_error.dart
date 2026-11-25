@@ -7,9 +7,12 @@ extension ShowError on BuildContext {
 
     messenger.showSnackBar(
       SnackBar(
-        content: Text(message, style: TextStyle(
-          color: theme.colorScheme.error,
-        ),),
+        content: Text(
+          message,
+          style: TextStyle(
+            color: theme.colorScheme.error,
+          ),
+        ),
         backgroundColor: theme.colorScheme.onPrimary,
       ),
     );

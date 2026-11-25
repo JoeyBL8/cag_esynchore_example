@@ -25,7 +25,7 @@ class RemoteCaHJsonResourceSetProvider({
 
   TaskEither<CagSetFailure, List<CagSet>> loadInitialData() => .Do(($) async {
     if (_cachedCagSets != null) return _cachedCagSets!;
-    
+
     final result = await $(.tryCatch(() => http.get(setUrl), (_, _) => const CagSetFailure()));
 
     final list = await $(.tryCatch(() async => jsonDecode(result.body), (_, _) => const CagSetFailure()));

@@ -7,6 +7,6 @@ late final GameKeyPersistence globalPersistence;
 
 void main(List<String> args) async {
   final preferences = await SharedPreferences.getInstance();
-  globalPersistence =  GameKeyPersistence(preferences: preferences);
+  globalPersistence = GameKeyPersistence(preferences: preferences);
   runApp(const CagApp());
 }

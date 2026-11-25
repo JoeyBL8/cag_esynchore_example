@@ -16,6 +16,17 @@ Router createRouter({
   required CagGameSerializer gameSerializer,
   required CagSetProvider setProvider,
 }) => Router()
+  ..get(
+    "/",
+    (_) => Response.ok(
+      headers: jsonDefaultHeaders,
+      jsonEncode({
+        "name": "CAG game server",
+        "version": "0.1.0",
+        "browser_message": "If you came here for browser validation, you can close this tab now",
+      }),
+    ),
+  )
   ..post("/games", createGameHandler(sessionService: sessionService))
   ..get("/games", listGamesHandler(sessionService: sessionService))
   ..post(

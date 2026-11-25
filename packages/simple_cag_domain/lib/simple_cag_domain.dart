@@ -6,6 +6,7 @@ export "src/model/create_game_intent.dart";
 export "src/model/join_game_intent.dart";
 export "src/model/serializing.dart";
 export "src/service//cag_api_service.dart";
+export "src/service/api_service_platform/platform.dart";
 export "src/service/authentication.dart";
 export "src/service/cag_set_provider.dart";
 export "src/service/session_service.dart";

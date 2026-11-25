@@ -21,20 +21,19 @@ final Serializer<CagGameListing> _cagGameListingSerializer = Serializer(
   validators: {
     _keyId: .string(),
     _keyPlayers: .int(),
-    _keySets: .list(childValidator: .string())
+    _keySets: .list(childValidator: .string()),
   },
   fromMap: (map) => switch (map) {
-    {_keyId: final String id, _keyPlayers: final int players, _keySets: final List sets} =>
-      CagGameListing(id: id, players: players, sets: sets.whereType<String>().toList()),
+    {_keyId: final String id, _keyPlayers: final int players, _keySets: final List sets} => CagGameListing(
+      id: id,
+      players: players,
+      sets: sets.whereType<String>().toList(),
+    ),
     _ => throw StateError(
       "Tried to serialize an unvalidated map, validate the object first",
     ),
   },
-  toMap: (game) => {
-    _keyId: game.id,
-    _keyPlayers: game.players,
-    _keySets: game.sets
-  },
+  toMap: (game) => {_keyId: game.id, _keyPlayers: game.players, _keySets: game.sets},
 );
 
 class CagGameList({required final List<CagGameListing> games});
@@ -64,8 +63,6 @@ final Serializer<CagGameList> _cagGameListSerializer = Serializer(
     ),
   },
   toMap: (result) => {
-    _keyGames: result.games
-        .map((game) => game.objectSerializer.serialize())
-        .toList(),
+    _keyGames: result.games.map((game) => game.objectSerializer.serialize()).toList(),
   },
 );

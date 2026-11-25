@@ -9,7 +9,7 @@ class ServerSubscription({
 }) {
   int get port => _server.port;
 
-  Uri get uri => Uri.http("${_server.address.host}:$port");
+  Uri get uri => Uri.https("${_server.address.host}:$port");
 
   Future<void> dispose() => _server.close();
 }
@@ -18,6 +18,7 @@ Future<ServerSubscription> openServer({
   required CagSessionService sessionService,
   required CagGameSerializer serializer,
   required CagSetProvider setProvider,
+  SecurityContext? securityContext,
   int? port,
 }) async {
   final stateSerializer = CagGameSerializer();
@@ -34,6 +35,7 @@ Future<ServerSubscription> openServer({
     rootHandler,
     InternetAddress.anyIPv4,
     port ?? 43234,
+    securityContext: securityContext,
   );
 
   return ServerSubscription(server: server);

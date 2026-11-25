@@ -1,4 +1,3 @@
-
 import "package:material_ui/material_ui.dart";
 
 ThemeData getTheme() {
@@ -30,12 +29,10 @@ ThemeData getTheme() {
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         backgroundColor: colorScheme.primary,
-        shape: const BeveledRectangleBorder(
-          borderRadius: .all(.circular(4))
-        ),
+        shape: const BeveledRectangleBorder(borderRadius: .all(.circular(4))),
         elevation: 2,
         shadowColor: colorScheme.secondary,
       ),
-    )
+    ),
   );
 }

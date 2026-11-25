@@ -1,6 +1,7 @@
 import "package:fpdart/fpdart.dart";
 import "package:material_ui/material_ui.dart";
 import "package:simple_cag_domain/simple_cag_domain.dart";
+import "package:simple_cag_frontend/src/screens/game_state_view/utils.dart";
 import "package:simple_cag_frontend/src/service/game_connection.dart";
 import "package:simple_cag_frontend/src/widgets/cag_card.dart";
 import "package:simple_cag_frontend/src/widgets/scaled_down_size.dart";
@@ -33,7 +34,7 @@ class const PlayerSidebar({
         builder: (context) => ViewPlayerDialog(
           isSelf: player.id == this.player.id,
           player: player,
-          canJudge: canJudge,
+          canJudge: canJudge && player.played.isNotEmpty,
           promptCard: gameState.currentPrompt,
         ),
       );
@@ -104,13 +105,13 @@ class const ViewPlayerDialog({
               child: Text(
                 "Score: ${player.score}",
                 style: .new(
-                  fontSize: 28,
+                  fontSize: 20,
                   color: theme.colorScheme.onSecondary,
-                  fontWeight: isSelf ? .w900 : .w400,
+                  fontWeight: .w900,
                 ),
               ),
             ),
-            if (player.played.isNotEmpty && player.played.any((card) => card.visible) && !canJudge) ...[
+            if (player.played.isNotEmpty && player.played.any((card) => card.visible)) ...[
               const Divider(),
               SizedBox(
                 height: 128,
@@ -126,6 +127,13 @@ class const ViewPlayerDialog({
                       )
                       .toList(),
                 ),
+              ),
+            ],
+            if (promptCard case Some(:final value) when canJudge) ...[
+              const Divider(),
+              Padding(
+                padding: const .all(12),
+                child: Text(FullFillPrompt.fromCards(value, player.played)),
               ),
             ],
             const Divider(),
@@ -221,7 +229,7 @@ class const _PlayerTile({
                 ),
                 if (isJudge) ...[
                   const Icon(Icons.gavel),
-                ]
+                ],
               ],
             ),
             if (player.played.isNotEmpty) ...[

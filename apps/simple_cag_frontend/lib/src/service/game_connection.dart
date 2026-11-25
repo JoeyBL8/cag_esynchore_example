@@ -7,7 +7,7 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:fpdart/fpdart.dart";
 import "package:simple_cag_domain/simple_cag_domain.dart";
 import "package:simple_cag_frontend/src/screens/screen_state.dart";
-import "package:web_socket_channel/web_socket_channel.dart";
+import "package:simple_cag_frontend/src/service/websocket_platform/ws_client.dart";
 
 typedef SerializableCredentials = Either<CagSerializationFailure, CagCredentials>;
 
@@ -134,6 +134,7 @@ CagGameConnectionState useCagGameConnection(
           final credentials = screenState.credentials;
 
           nextCommandClient = HttpCommandClient<CagCredentials, CagCommand>(
+            client: createApiClient(allowedHost: screenState.serverUri.host, allowedPort: screenState.serverUri.port),
             endpoint: _gameEndpoint(
               screenState.serverUri,
               screenState.gameId,
@@ -155,7 +156,11 @@ CagGameConnectionState useCagGameConnection(
             ),
           );
 
-          final channel = WebSocketChannel.connect(websocketUri);
+          final channel = connectWebSocket(
+            uri: websocketUri,
+            allowedHost: websocketUri.host,
+            allowedPort: websocketUri.port,
+          );
 
           final nextConnection = WebSocketProtocolConnection.client(channel, nextClient);
 

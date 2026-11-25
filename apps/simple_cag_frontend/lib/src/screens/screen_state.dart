@@ -25,7 +25,7 @@ final class const SelectServerCagScreenState({
   Task<InitialCagScreenState> logout() => .of(const InitialCagScreenState());
 
   TaskEither<String, GameCagScreenState> createGame(Uri host, List<String> cardSets) => .Do(($) async {
-    final apiService = CagApiService(baseUrl: host);
+    final apiService = CagApiService.unsecure(baseUrl: host);
     final result = await $(
       apiService
           .createGame(JoinGameIntent(playerName: playerName, key: key), cardSets)
@@ -53,7 +53,7 @@ final class const SelectServerCagScreenState({
 
   TaskEither<String, CagCredentials> _joinFresh(Uri host, String game) => .Do(($) async {
     await $(.fromTask(globalPersistence.resetCredentials(game, key)));
-    final apiService = CagApiService(baseUrl: host);
+    final apiService = CagApiService.unsecure(baseUrl: host);
 
     final result = await $(
       apiService

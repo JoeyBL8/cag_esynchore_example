@@ -95,7 +95,7 @@ class const _ServerList({
 
 extension on NetworkAddress {
   Uri get uri => Uri(
-    scheme: "http",
+    scheme: "https",
     host: ip,
     port: openPorts.first,
   );

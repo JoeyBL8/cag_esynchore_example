@@ -40,7 +40,7 @@ class const PlayerHandDisplay({
                         () => tappable(card),
                   )
                   .toNullable();
-      
+
               return CagResponseCardDisplay(
                 card: card,
                 onTap: callback,

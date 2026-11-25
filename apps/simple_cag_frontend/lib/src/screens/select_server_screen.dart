@@ -99,7 +99,7 @@ class const _CreateGameDialog(final Uri host) extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final apiService = useMemoized(() => CagApiService(baseUrl: host), [host]);
+    final apiService = useMemoized(() => CagApiService.unsecure(baseUrl: host), [host]);
 
     final setsFuture = useMemoized(apiService.getSets().run, [apiService]);
 

@@ -5,7 +5,6 @@ import "package:simple_cag_frontend/src/screens/login_screen.dart";
 import "package:simple_cag_frontend/src/screens/screen_state.dart";
 import "package:simple_cag_frontend/src/screens/select_server_screen.dart";
 
-
 class const CagScreen({super.key}) extends HookWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,13 +15,13 @@ class const CagScreen({super.key}) extends HookWidget {
     }
 
     return Scaffold(
-    body: SafeArea(
-      child: switch(currentState.value) {
-        InitialCagScreenState state => LoginScreen(state: state, onStateChanged: updateState),
-        SelectServerCagScreenState state => SelectServerScreen(state: state, onStateChanged: updateState),
-        GameCagScreenState state => GameScreen(state: state, onStateChanged: updateState),
-      },
-    ),
-  );
+      body: SafeArea(
+        child: switch (currentState.value) {
+          InitialCagScreenState state => LoginScreen(state: state, onStateChanged: updateState),
+          SelectServerCagScreenState state => SelectServerScreen(state: state, onStateChanged: updateState),
+          GameCagScreenState state => GameScreen(state: state, onStateChanged: updateState),
+        },
+      ),
+    );
   }
 }

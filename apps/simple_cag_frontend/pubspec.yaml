@@ -25,6 +25,8 @@ dependencies:
   web_socket_channel: ^3.0.3
   stretch_wrap: ^0.1.1
   flutter_launcher_icons: ^0.14.4
+  basic_utils: ^5.8.2
+  url_launcher: ^6.3.3
 
 flutter:
   uses-material-design: true

@@ -20,9 +20,9 @@ class const GameListWidget({
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final apiService = useMemoized(
-      () => CagApiService(
+      () => CagApiService.unsecure(
         baseUrl: Uri(
-          scheme: "http",
+          scheme: "https",
           port: address.port,
           host: address.host,
         ),
@@ -65,10 +65,13 @@ class const GameListWidget({
         maintainState: true,
         childrenPadding: const .all(12),
         children: [
-          FilledButton(onPressed: () async {
-            await onCreateGame();
-            refreshIndicator.value++;
-          }, child: const Text("Create temp game")),
+          FilledButton(
+            onPressed: () async {
+              await onCreateGame();
+              refreshIndicator.value++;
+            },
+            child: const Text("Create temp game"),
+          ),
           if (value.games.isEmpty) ...[
             const Text("No games active on this server"),
           ] else

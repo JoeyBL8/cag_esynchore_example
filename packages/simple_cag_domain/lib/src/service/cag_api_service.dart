@@ -5,18 +5,27 @@ final class const CagApiFailure();
 
 class CagApiService({
   required super.baseUrl,
+  super.client,
 }) extends HttpApiService<Object> {
+  factory CagApiService.unsecure({
+    required Uri baseUrl,
+  }) => CagApiService(
+    baseUrl: baseUrl,
+    client: createApiClient(allowedHost: baseUrl.host, allowedPort: baseUrl.port),
+  );
+
   TaskEither<CagApiFailure, List<String>> getSets() {
-    final result = endpoint("/sets")
-        .withConverter(const MapJsonResponseConverter())
-        .get();
+    final result = endpoint("/sets").withConverter(const MapJsonResponseConverter()).get();
 
     return result
         .mapLeft((_) => const CagApiFailure())
-        .flatMap((response) => .fromNullable(response.result, CagApiFailure.new)).map((data) => switch(data) {
-          {"sets": final List sets } => sets.whereType<String>().toList(),
-          _ => <String>[],
-        });
+        .flatMap((response) => .fromNullable(response.result, CagApiFailure.new))
+        .map(
+          (data) => switch (data) {
+            {"sets": final List sets} => sets.whereType<String>().toList(),
+            _ => <String>[],
+          },
+        );
   }
 
   TaskEither<CagApiFailure, CagGameList> getGames() {
