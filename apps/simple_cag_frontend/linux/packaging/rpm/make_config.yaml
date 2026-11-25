@@ -1,0 +1,25 @@
+display_name: "Cag: The Game"
+package_name: simple-cag-frontend
+summary: "A multiplayer card game for closed local networks"
+description: "Host a multiplayer card game on your local network—no internet connection required."
+
+packager: Joey Boerwinkel
+packager_email: joey.boerwinkel@hotmail.com
+
+icon: assets/icon/icon.png
+
+installed_size: 26088
+
+keywords:
+  - "Cards Against Humanity"
+  - "Local Card Game"
+
+generic_name: Card Game
+
+categories:
+  - Game
+  - CardGame
+
+startup_notify: true
+
+license: Unlicense

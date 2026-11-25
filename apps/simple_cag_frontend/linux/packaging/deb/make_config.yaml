@@ -1,0 +1,37 @@
+display_name: "Cag: The Game"
+package_name: simple-cag-frontend
+description: "A simple Cards against humanity locally hosted game"
+
+maintainer:
+  name: Joey Boerwinkel
+  email: joey.boerwinkel@hotmail.com
+
+priority: optional
+
+section: x11
+
+installed_size: 26088
+
+dependencies:
+  - mpv
+
+essential: false
+
+icon: assets/icon/icon.png
+
+postuninstall_scripts:
+  - echo "I hope you had fun!"
+
+keywords:
+  - Cards against Humanity
+  - Local Card Game
+
+generic_name: Cardgame
+
+categories:
+  - Games
+  - Leisure
+
+startup_notify: true
+
+license: Unlicense
