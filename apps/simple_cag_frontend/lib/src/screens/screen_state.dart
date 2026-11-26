@@ -52,13 +52,22 @@ final class const SelectServerCagScreenState({
   });
 
   TaskEither<String, GameCagScreenState> spectate(Uri host, String game) => .Do(
-    ($) async => GameCagScreenState(
-      credentials: .new(playerIdentifier: .create(), key: ""),
-      playerName: playerName,
-      serverUri: host,
-      gameId: game,
-      spectate: true,
-    ),
+    ($) async {
+      final history = globalPersistence.getCredentials(game, key);
+
+      final credentials = Either.fromOption(
+        history,
+        () => "",
+      ).getOrElse((_) => .new(playerIdentifier: .create(), key: ""));
+
+      return GameCagScreenState(
+        credentials: credentials,
+        playerName: playerName,
+        serverUri: host,
+        gameId: game,
+        spectate: true,
+      );
+    },
   );
 
   TaskEither<String, CagCredentials> _joinFresh(Uri host, String game) => .Do(($) async {
