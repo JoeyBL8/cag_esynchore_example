@@ -55,6 +55,13 @@ enum CagPlayerRole {
   player,
 }
 
+enum PlayerActivityStatus {
+  active,
+  disconnected,
+  stale,
+  kicked,
+}
+
 class const CagPlayer({
   required final CagIdentifier id,
   required final String name,
@@ -62,6 +69,7 @@ class const CagPlayer({
   required final List<CagResponseCard> _played,
   required final int score,
   required final CagPlayerRole role,
+  required final PlayerActivityStatus status,
 
   /// a way to manipulate turn order so it is not based on first joined
   required final int turnOrderIdentifier,
@@ -74,6 +82,7 @@ class const CagPlayer({
     score: 0,
     role: role ?? .player,
     turnOrderIdentifier: Random().nextInt(9999),
+    status: .active,
   );
 
   List<CagResponseCard> get hand => .unmodifiable(_hand);

@@ -32,8 +32,10 @@ extension CopyCagPlayer on CagPlayer {
     int? turnOrderIdentifier,
     int? score,
     CagPlayerRole? role,
+    PlayerActivityStatus? status,
   }) => CagPlayer(
     id: id,
+    status: status ?? this.status,
     name: name ?? this.name,
     hand: hand ?? this.hand,
     played: played ?? this.played,

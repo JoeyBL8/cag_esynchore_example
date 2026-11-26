@@ -13,4 +13,10 @@ Handler websocketHandler({
   stateSerializer: gameSerializer.serializer,
   projectState: (state, principal) => CagProjection(principal: principal, game: state),
   projectPublicState: (state) => CagProjection(principal: null, game: state),
+  onAuthenticated: (_, principal) => sessionService.handlePlayerJoinGame(sessionId, principal.playerIdentifier),
+  onClosed: (principal) async {
+    if (principal != null) {
+      await sessionService.handlePlayerLeaveGame(sessionId, principal.playerIdentifier);
+    }
+  }
 );

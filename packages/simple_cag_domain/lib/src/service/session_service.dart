@@ -31,9 +31,17 @@ class CagSessionService({
   required final CagSetProvider _setProvider,
   AutomatedGameProgressor? progressor,
 }) extends StateSessionService<CagGame, SerializableCredentials, CagAuthPrincipal> {
-  this
-    : _progressor = progressor ?? AutomatedGameProgressor(systemCredentials: _systemCredentials),
-      super(authenticate: (_, _) => .fromEither(Failure(CagEsynchoreErrorCodes.authUnimplemented.getError())));
+  this : super(authenticate: (_, _) => .fromEither(Failure(CagEsynchoreErrorCodes.authUnimplemented.getError()))) {
+    _progressor =
+        progressor ??
+        AutomatedGameProgressor(
+          systemCredentials: _systemCredentials,
+          onRemove: (id) => .Do(($) async {
+            await remove(id);
+            return unit;
+          }),
+        );
+  }
 
   static CagCredentials get _systemCredentials =>
       CagCredentials(playerIdentifier: _systemAccessIdentifier, key: _systemAccessKey);
@@ -76,7 +84,7 @@ class CagSessionService({
   });
 
   List<CagGameListing> getGames() {
-    final games = _knownGameIds.map((registration) => (registration, get(registration.gameId)));
+    final games = _knownGameIds.map((registration) => (registration, get(registration.gameId))).toList();
 
     games.where((gwid) => gwid.$2 == null).map((gwid) => gwid.$1).forEach(_knownGameIds.remove);
 
@@ -114,6 +122,30 @@ class CagSessionService({
 
     return JoinGameIntentResponse(gameId: game.id.id, playerId: identifier);
   });
+
+  Future<void> handlePlayerJoinGame(String id, CagIdentifier playerId) async {
+    final handler = get(id);
+    if (handler == null) return;
+
+    await handler
+        .submit(
+          UpdatePlayerConnectionStatusCommand(playerIdentifier: playerId, status: .active),
+          .of(_systemCredentials),
+        )
+        .run();
+  }
+
+  Future<void> handlePlayerLeaveGame(String id, CagIdentifier playerId) async {
+    final handler = get(id);
+    if (handler == null) return;
+
+    await handler
+        .submit(
+          UpdatePlayerConnectionStatusCommand(playerIdentifier: playerId, status: .disconnected),
+          .of(_systemCredentials),
+        )
+        .run();
+  }
 
   void _notifyAutomation(String id, CagCommand command, CagGame state) {
     final handler = get(id);

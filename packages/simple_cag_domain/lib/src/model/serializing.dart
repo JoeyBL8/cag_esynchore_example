@@ -102,6 +102,14 @@ class CagGameSerializer {
           "String",
         ).flatMap((name) => _deserializeEnum("role", name, CagPlayerRole.values, "PlayerRole")),
       ),
+      status:
+          _parseType<String>(
+                map,
+                "status",
+                "String",
+              )
+              .flatMap((name) => _deserializeEnum("status", name, PlayerActivityStatus.values, "PlayerActivityStatus"))
+              .getOrElse((_) => .active),
       // always set to -1, turnorderIdentifier is never in the map, the player does not need to know it.
       turnOrderIdentifier: -1,
     ),
@@ -192,6 +200,7 @@ class CagGameSerializer {
       false => player.played.map(_anonymizeResponseCard),
     }.map(_serializeResponseCard).toList(),
     "role": player.role.name,
+    "status": player.status.name,
   };
 
   Map<String, dynamic> _serializeRoundResult(CagRoundResult result) => {

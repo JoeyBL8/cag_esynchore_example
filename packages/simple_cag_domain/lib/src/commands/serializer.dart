@@ -37,6 +37,7 @@ final cagCommandSerializer = Serializer<CagCommand>(
 
 Serializer<CagCommand> _getSerializerForCommand(CagCommands command) => switch (command) {
   .joinGame => _unserializableCommandSerializer<JoinGameCommand>(),
+  .updatePlayerConnectionStatus => _unserializableCommandSerializer<UpdatePlayerConnectionStatusCommand>(),
   .startNewRound => StartNewRoundCommand.serializer,
   .playCards => PlayCardsCommand.serializer,
   .votePick => VotePickCommand.serializer,

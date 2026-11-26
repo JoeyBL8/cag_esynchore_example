@@ -8,6 +8,7 @@ export "play_cards_command.dart";
 export "progress_to_voting_command.dart";
 export "serializer.dart";
 export "start_new_round_command.dart";
+export "update_player_connection_status_command.dart";
 export "vote_pick_command.dart";
 
 enum CagCommands(final String commandType) {
@@ -16,6 +17,7 @@ enum CagCommands(final String commandType) {
   votePick("pick_votes"),
   startNewRound("start_new_round"),
   progressToVoting("progress_to_voting"),
+  updatePlayerConnectionStatus("update_player_connection_status"),
 }
 
 extension CagCommandError on CagCommand {
