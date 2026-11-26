@@ -51,6 +51,16 @@ final class const SelectServerCagScreenState({
     );
   });
 
+  TaskEither<String, GameCagScreenState> spectate(Uri host, String game) => .Do(
+    ($) async => GameCagScreenState(
+      credentials: .new(playerIdentifier: .create(), key: ""),
+      playerName: playerName,
+      serverUri: host,
+      gameId: game,
+      spectate: true,
+    ),
+  );
+
   TaskEither<String, CagCredentials> _joinFresh(Uri host, String game) => .Do(($) async {
     await $(.fromTask(globalPersistence.resetCredentials(game, key)));
     final apiService = CagApiService.unsecure(baseUrl: host);
@@ -73,6 +83,7 @@ final class const GameCagScreenState({
   required final Uri serverUri,
   required final String gameId,
   required final String playerName,
+  final bool spectate = false,
 }) extends CagScreenState {
   Task<SelectServerCagScreenState> disconnect() => .of(
     SelectServerCagScreenState(key: credentials.key, playerName: playerName),

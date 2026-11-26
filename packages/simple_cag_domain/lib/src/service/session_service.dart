@@ -91,7 +91,11 @@ class CagSessionService({
     return games.where((gwid) => gwid.$2 != null).map((gwid) {
       final (registration, game!) = gwid;
 
-      return CagGameListing(id: registration.gameId, players: game.state.players.length, sets: registration.cardSets);
+      return CagGameListing(
+        id: registration.gameId,
+        players: game.state.players.where((player) => player.status == .active).length,
+        sets: registration.cardSets,
+      );
     }).toList();
   }
 

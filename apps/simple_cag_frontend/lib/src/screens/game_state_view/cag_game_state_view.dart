@@ -2,7 +2,6 @@ import "package:flutter_hooks/flutter_hooks.dart";
 import "package:fpdart/fpdart.dart";
 import "package:material_ui/material_ui.dart";
 import "package:simple_cag_domain/simple_cag_domain.dart";
-import "package:simple_cag_frontend/src/screens/game_screen.dart";
 import "package:simple_cag_frontend/src/screens/game_state_view/game_state_notification.dart";
 import "package:simple_cag_frontend/src/screens/game_state_view/generic_player_controls.dart";
 import "package:simple_cag_frontend/src/screens/game_state_view/player_hand_visualization.dart";
@@ -21,13 +20,59 @@ class const CagGameStateView({
   Widget build(BuildContext context) {
     final player = gameState.players.where((player) => player.id == credentials.playerIdentifier).firstOrNull;
 
-    if (player == null) return const DisconnectedView();
+    if (player == null) return _SpectatorView(gameState: gameState);
 
     return _LoggedInPlayerView(
       credentials: credentials,
       connectedState: connectedState,
       gameState: gameState,
       myPlayer: player,
+    );
+  }
+}
+
+class const _SpectatorView({required final CagGame gameState}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final gameControls = Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const .all(24.0),
+            child: Center(
+              child: gameState.currentPrompt.map((prompt) => CagPromptCardDisplay(card: prompt)).toNullable(),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 160,
+          child: SpectatorPlayerSidebar(gameState: gameState),
+        ),
+      ],
+    );
+
+    return Column(
+      crossAxisAlignment: .stretch,
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              gameControls,
+              if (gameState.stage == .endOfRound) ...[
+                Center(child: WinningPrompt(game: gameState)),
+              ],
+            ],
+          ),
+        ),
+        const Divider(
+          height: 4,
+          thickness: 4,
+        ),
+        const Divider(
+          height: 4,
+          thickness: 4,
+        ),
+      ],
     );
   }
 }

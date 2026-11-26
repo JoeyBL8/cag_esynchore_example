@@ -63,9 +63,7 @@ final class const EsynchoreConnectionFailure({
 
 final class const UnknownConnectionFailure() extends CagConnectionFailure;
 
-CagGameConnectionState useCagGameConnection(
-  GameCagScreenState screenState,
-) {
+CagGameConnectionState useCagGameConnection(GameCagScreenState screenState) {
   final controller = useMemoized(CagGameConnectionController.new);
   final state = useState<CagGameConnectionState>(
     CagGameDisconnected(controller),
@@ -207,33 +205,35 @@ CagGameConnectionState useCagGameConnection(
           await channel.ready;
           if (!active) return;
 
-          final result = await nextClient.authenticate(
-            Right<CagSerializationFailure, CagCredentials>(credentials),
-          );
+          if (!screenState.spectate) {
+            final result = await nextClient.authenticate(
+              Right<CagSerializationFailure, CagCredentials>(credentials),
+            );
 
-          if (!active) return;
+            if (!active) return;
 
-          result.match(
-            (error) {
-              if (!identical(connection, nextConnection)) return;
+            result.match(
+              (error) {
+                if (!identical(connection, nextConnection)) return;
 
-              connection = null;
-              commandClient?.close();
-              commandClient = null;
+                connection = null;
+                commandClient?.close();
+                commandClient = null;
 
-              setState(
-                CagGameConnectionFailed(
-                  controller: controller,
-                  error: EsynchoreConnectionFailure(message: error),
-                ),
-              );
+                setState(
+                  CagGameConnectionFailed(
+                    controller: controller,
+                    error: EsynchoreConnectionFailure(message: error),
+                  ),
+                );
 
-              unawaited(nextConnection.close());
-            },
-            (_) {
-              // The game state arrives through stateChanges.
-            },
-          );
+                unawaited(nextConnection.close());
+              },
+              (_) {
+                // The game state arrives through stateChanges.
+              },
+            );
+          }
         } on Object {
           nextCommandClient?.close();
 

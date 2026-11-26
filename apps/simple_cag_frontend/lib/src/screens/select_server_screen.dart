@@ -20,7 +20,10 @@ class const SelectServerScreen({
     }
 
     Future<void> onJoinGame(JoinGameAction action) async {
-      final result = await state.join(action.host, action.gameId).run();
+      final result = await switch(action.spectate) {
+        true => state.spectate(action.host, action.gameId),
+        false => state.join(action.host, action.gameId),
+      }.run();
 
       switch (result) {
         case Right(value: final state):

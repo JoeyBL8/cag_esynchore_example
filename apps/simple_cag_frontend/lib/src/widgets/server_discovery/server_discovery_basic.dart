@@ -101,8 +101,13 @@ class _ServerDiscoveryState extends State<ServerDiscovery> {
             child: GameListWidget(
               address: host,
               onCreateGame: () => widget.onCreateGame(host),
+              onSpectateGame: (game) => widget.onJoinGame(JoinGameAction(gameId: game.id, host: host, spectate: true)),
               onJoinGame: (game) => widget.onJoinGame(
-                JoinGameAction(gameId: game.id, host: host),
+                JoinGameAction(
+                  gameId: game.id,
+                  host: host,
+                  spectate: false,
+                ),
               ),
             ),
           ),

@@ -84,8 +84,9 @@ class const _ServerList({
         return GameListWidget(
           address: address.uri,
           onCreateGame: () => onCreateGame(address.uri),
+          onSpectateGame: (game) => onJoinGame(JoinGameAction(gameId: game.id, host: address.uri, spectate: true)),
           onJoinGame: (game) {
-            onJoinGame(JoinGameAction(gameId: game.id, host: address.uri));
+            onJoinGame(JoinGameAction(gameId: game.id, host: address.uri, spectate: false));
           },
         );
       },

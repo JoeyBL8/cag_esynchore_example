@@ -8,11 +8,13 @@ import "package:simple_cag_domain/simple_cag_domain.dart";
 class JoinGameAction({
   required final String gameId,
   required final Uri host,
+  required final bool spectate,
 });
 
 class const GameListWidget({
   required final Uri address,
   required final ValueChanged<CagGameListing> onJoinGame,
+  required final ValueChanged<CagGameListing> onSpectateGame,
   required final Future<void> Function() onCreateGame,
   super.key,
 }) extends HookWidget {
@@ -70,32 +72,79 @@ class const GameListWidget({
               await onCreateGame();
               refreshIndicator.value++;
             },
-            child: const Text("Create temp game"),
+            child: const Text("Create game"),
           ),
+          const SizedBox(height: 12),
           if (value.games.isEmpty) ...[
             const Text("No games active on this server"),
           ] else
             for (final game in value.games) ...[
-              ListTile(
-                title: Text(game.id),
-                subtitle: Column(
-                  crossAxisAlignment: .start,
-                  children: [
-                    Text("Players: ${game.players}"),
-                    Text("Sets: ${game.sets.join(", ")}"),
-                  ],
-                ),
-                leading: FilledButton.icon(
-                  onPressed: () {
-                    onJoinGame(game);
-                  },
-                  icon: const Icon(Icons.gamepad),
-                  label: const Text("Join"),
-                ),
-              ),
+              _GameTile(game: game, onJoinGame: onJoinGame, onSpectateGame: onSpectateGame),
             ],
         ],
       ),
     };
   }
+}
+
+class const _GameTile({
+  required final CagGameListing game,
+  required final ValueChanged<CagGameListing> onJoinGame,
+  required final ValueChanged<CagGameListing> onSpectateGame,
+}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => InkWell(
+      onDoubleTap: () {
+        onJoinGame(game);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: .start,
+          spacing: 12,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Column(
+                spacing: 4,
+                crossAxisAlignment: .stretch,
+                children: [
+                  FilledButton.icon(
+                    onPressed: () {
+                      onJoinGame(game);
+                    },
+                    icon: const Icon(Icons.gamepad),
+                    label: const Text("Join"),
+                  ),
+                  FilledButton.icon(
+                    onPressed: () {
+                      onSpectateGame(game);
+                    },
+                    icon: const Icon(Icons.visibility),
+                    label: const Text("Spectate"),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: .start,
+                crossAxisAlignment: .start,
+                spacing: 8,
+                children: [
+                  Text(
+                    "Players: ${game.players}",
+                    style: const TextStyle(
+                      fontWeight: .w900,
+                    ),
+                  ),
+                  Text("Sets(${game.sets.length}): ${game.sets.take(3).join(", ")}"),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
 }

@@ -7,6 +7,42 @@ import "package:simple_cag_frontend/src/widgets/cag_card.dart";
 import "package:simple_cag_frontend/src/widgets/scaled_down_size.dart";
 import "package:simple_cag_frontend/src/widgets/show_error.dart";
 
+class const SpectatorPlayerSidebar({
+  required final CagGame gameState,
+  super.key,
+}) extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Future<void> viewPlayer(CagPlayer player) async {
+      await showDialog<CagIdentifier>(
+        context: context,
+        builder: (context) => ViewPlayerDialog(
+          isSelf: false,
+          player: player,
+          canJudge: false,
+          promptCard: gameState.currentPrompt,
+        ),
+      );
+    }
+
+    return ListView(
+      children: [
+        for (final player in gameState.players) ...[
+          _PlayerTile(
+            isSelf: false,
+            player: player,
+            isJudge: gameState.currentJudge.map((judge) => judge == player.id).getOrElse(() => false),
+            onViewPlayer: () => viewPlayer(player),
+          ),
+          if (gameState.players.isNotEmpty && gameState.players.last != player) ...[
+            const Divider(height: 4, thickness: 4),
+          ],
+        ],
+      ],
+    );
+  }
+}
+
 class const PlayerSidebar({
   super.key,
   required final CagCredentials credentials,
