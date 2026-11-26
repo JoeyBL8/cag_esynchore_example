@@ -1,4 +1,3 @@
-import "package:fpdart/fpdart.dart";
 import "package:material_ui/material_ui.dart";
 import "package:simple_cag_domain/simple_cag_domain.dart";
 import "package:simple_cag_frontend/src/widgets/cag_card.dart";
@@ -34,17 +33,16 @@ class const PlayerHandDisplay({
           crossAxisSpacing: 12,
           children: hand.map(
             (card) {
-              final callback = Option.fromNullable(onTapCard)
-                  .map(
-                    (tappable) =>
-                        () => tappable(card),
-                  )
-                  .toNullable();
+              final callback = onTapCard?.bind(card);
 
               return CagResponseCardDisplay(
                 card: card,
                 onTap: callback,
                 selected: selectedCards.contains(card.id),
+                selectedIndex: switch (selectedCards.indexOf(card.id)) {
+                  int index when index < 0 => null,
+                  int index => index,
+                },
               );
             },
           ).toList(),
@@ -80,4 +78,10 @@ class const _PlayerHandFrame({
       ),
     );
   }
+}
+
+extension <T> on ValueChanged<T> {
+  VoidCallback bind(T value) => () {
+    this.call(value);
+  };
 }

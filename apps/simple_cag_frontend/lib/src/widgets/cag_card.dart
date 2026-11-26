@@ -4,6 +4,7 @@ import "package:simple_cag_domain/simple_cag_domain.dart";
 class const CagResponseCardDisplay({
   required final CagResponseCard card,
   final bool selected = false,
+  final int? selectedIndex,
   final VoidCallback? onTap,
   super.key,
 }) extends StatelessWidget {
@@ -11,18 +12,36 @@ class const CagResponseCardDisplay({
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final visibleContent = Align(
-      alignment: .topLeft,
-      child: Text(
-        card.text,
-        style: .new(
-          color: theme.colorScheme.primary,
-          fontWeight: switch (selected) {
-            true => .w900,
-            false => .w600,
-          },
+    final visibleContent = Stack(
+      children: [
+        Align(
+          alignment: .topLeft,
+          child: Text(
+            card.text,
+            style: .new(
+              color: theme.colorScheme.primary,
+              fontWeight: switch (selected) {
+                true => .w900,
+                false => .w600,
+              },
+            ),
+          ),
         ),
-      ),
+        if (selectedIndex != null) ...[
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Text(
+              "${selectedIndex! + 1}",
+              style: TextStyle(
+                color: theme.colorScheme.primary,
+                fontWeight: .w900,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ],
     );
     final invisibleContent = Padding(
       padding: const .all(8),
