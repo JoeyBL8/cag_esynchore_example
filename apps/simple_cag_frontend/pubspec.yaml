@@ -1,6 +1,6 @@
 name: "simple_cag_frontend"
 publish_to: "none"
-version: 0.2.0
+version: 0.2.1
 
 resolution: workspace
 
