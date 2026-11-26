@@ -91,11 +91,16 @@ class const CagPromptCardDisplay({
       ),
     );
 
-    final visibleContent = Align(
-      alignment: .topLeft,
-      child: Text(
-        card.prompt.replaceAll("_", "___"),
-        style: .new(color: theme.colorScheme.onPrimary, fontWeight: .w900),
+    final prompt = card.prompt.replaceAll("_", "___");
+
+    final visibleContent = Tooltip(
+      message: prompt,
+      child: Align(
+        alignment: .topLeft,
+        child: Text(
+          card.prompt.replaceAll("_", "___"),
+          style: .new(color: theme.colorScheme.onPrimary, fontWeight: .w900),
+        ),
       ),
     );
 
